@@ -38,6 +38,63 @@ tags:
 
 #### 算法实现
 ```java
+    private static long inverse(int[] arr, int left, int right) {
+
+        if (left - right >= 0) {
+            return 0;
+        }
+
+        int mid = (left + right) / 2;
+
+
+        long leftNum = inverse(arr, left, mid);
+        long rightNum = inverse(arr, mid + 1, right);
+        long num = merge(arr, left, mid, right);
+        return leftNum + rightNum + num;
+    }
+
+
+    /**
+     * 对于arr[left...mid] 与 arr[mid + 1 ... right],进行归并过程 并找出 逆序对
+     *
+     * @param arr
+     * @param left
+     * @param mid
+     * @param right
+     * @return
+     */
+    private static long merge(int[] arr, int left, int mid, int right) {
+
+        int[] aux = Arrays.copyOfRange(arr, left, right + 1);
+
+        long inverseNum = 0;
+        int k;
+        int i = left;
+        int j = mid + 1;
+        for (k = left; k <= right; k++) {
+            if (i > mid) {
+                // 如果左半部分元素已经全部处理完毕
+                arr[k] = aux[j - left];
+                j++;
+            } else if (j > right) {
+                // 如果右半部分元素已经全部处理完毕
+                arr[k] = aux[i - left];
+                i++;
+            } else if (aux[i - left] <= aux[j - left]){
+                // 左半部分所指元素 <= 右半部分所指元素
+                arr[k] = aux[i - left];
+                i++;
+            } else {   // 右半部分所指元素 < 左半部分所指元素
+                arr[k] = aux[j - left];
+                j++;
+                // 此时, 因为右半部分k所指的元素小
+                // 这个元素和左半部分的所有未处理的元素都构成了逆序数对
+                // 左半部分此时未处理的元素个数为 mid - i + 1
+                inverseNum += (long) (mid - i + 1);
+            }
+        }
+        return inverseNum;
+    }
 ```
 
 >   逆序对作用：
@@ -57,5 +114,58 @@ tags:
 ![quicksort-select-n](http://wx4.sinaimg.cn/large/63d77fe7gy1flauds39o0j20lx0c40t9.jpg)
 #### 算法实现
 ```java
+    /**
+     * @param arr
+     * @param l
+     * @param r
+     * @return
+     */
+    private static int partition3Ways(int[] arr, int l, int r, int index) {
+        Random random = new Random();
+        int rand = l + random.nextInt(r - l + 1);
+        CommonUtils.swap(arr, l, rand);
+        //标记元素
+        int p = arr[l];
 
+        //设置三数组边界，使得其初始化时为空数组。
+
+        //int[l+1...lt] < p
+        int lt = l;
+        //int[gt...r] < p
+        int gt = r + 1;
+        //int[lt+1...i) = p
+        int i = l + 1;
+
+        while (gt > i) {
+            if (arr[i] > p) {
+                gt--;
+                CommonUtils.swap(arr, i, gt);
+            } else if (arr[i] < p) {
+                lt++;
+                CommonUtils.swap(arr, i, lt);
+                i++;
+            } else {
+                i++;
+            }
+        }
+        CommonUtils.swap(arr, l, lt);
+        //此时 lt-1 是因为第一个元素交换后，将arr[l+1...lt]变成了--> arr[l,lt-1]
+        //arr[l...lt-1] < p ; arr[lt...gt) = p ; arr[gt...r] > p
+        if (lt > index) {
+
+            return quickSort3Ways(arr, l, lt - 1, index);
+
+        } else if (lt <= index && index < gt) {
+
+            return arr[index];
+
+        } else if (gt <= index) {
+
+            return quickSort3Ways(arr, gt, r, index);
+
+        } else {
+
+            return 0;
+        }
+    }
 ```
