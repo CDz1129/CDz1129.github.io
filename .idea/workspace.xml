@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b5d066e3-0eb2-424f-a3f1-d0fb3c5c6f92" name="Default" comment="update">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/CDz1129.github.io.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-cook.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-digital-native.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-5.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-bg-mma-6.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2017-11-20-HashMap源码分析.md" afterPath="$PROJECT_DIR$/_posts/2017-11-20-HashMap源码分析.md" />
+    <list default="true" id="b5d066e3-0eb2-424f-a3f1-d0fb3c5c6f92" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,7 +14,25 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="2017-11-27-多线程学习实践.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="231">
+                <caret line="101" column="16" lean-forward="true" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+                <folding>
+                  <marker date="1511882996252" expanded="true" signature="837:1235" ph="{...}" />
+                  <marker date="1511882996252" expanded="true" signature="867:1033" ph="{...}" />
+                  <marker date="1511882996252" expanded="true" signature="1063:1229" ph="{...}" />
+                </folding>
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -79,7 +85,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CDz1129.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDz1129.github.io" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDz1129.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDz1129.github.io" type="462c0819:PsiDirectoryNode" />
+              <item name="_posts" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
@@ -515,7 +536,7 @@
       <workItem from="1511681902595" duration="3187000" />
       <workItem from="1511707966847" duration="151000" />
       <workItem from="1511751544528" duration="1847000" />
-      <workItem from="1511883008965" duration="7000" />
+      <workItem from="1511883008965" duration="115000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1510062626442</created>
@@ -559,14 +580,22 @@
       <option name="project" value="LOCAL" />
       <updated>1511684778132</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update">
+      <created>1511883028844</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1511883028844</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13443000" />
+    <option name="totallyTimeSpent" value="13551000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -647,16 +676,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_posts/2017-11-03-O(n^2)排序算法思想.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="2793">
-            <caret line="133" column="23" lean-forward="false" selection-start-line="133" selection-start-column="23" selection-end-line="133" selection-end-column="23" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_posts/2017-11-03-O(nlogn)排序算法思考.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1061,6 +1080,21 @@
           <first_editor relative-caret-position="331">
             <caret line="228" column="20" lean-forward="false" selection-start-line="228" selection-start-column="20" selection-end-line="228" selection-end-column="20" />
             <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="231">
+            <caret line="101" column="16" lean-forward="true" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+            <folding>
+              <marker date="1511882996252" expanded="true" signature="837:1235" ph="{...}" />
+              <marker date="1511882996252" expanded="true" signature="867:1033" ph="{...}" />
+              <marker date="1511882996252" expanded="true" signature="1063:1229" ph="{...}" />
+            </folding>
           </first_editor>
           <second_editor />
         </state>
