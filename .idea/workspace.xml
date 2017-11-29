@@ -19,12 +19,12 @@
         <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="3360">
-                <caret line="160" column="13" lean-forward="true" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
+              <first_editor relative-caret-position="356">
+                <caret line="453" column="6" lean-forward="false" selection-start-line="453" selection-start-column="6" selection-end-line="453" selection-end-column="6" />
                 <folding>
-                  <marker date="1511922109859" expanded="true" signature="5234:5632" ph="{...}" />
-                  <marker date="1511922109859" expanded="true" signature="5264:5430" ph="{...}" />
-                  <marker date="1511922109859" expanded="true" signature="5460:5626" ph="{...}" />
+                  <marker date="1511922650630" expanded="true" signature="5235:5633" ph="{...}" />
+                  <marker date="1511922650630" expanded="true" signature="5265:5431" ph="{...}" />
+                  <marker date="1511922650630" expanded="true" signature="5461:5627" ph="{...}" />
                 </folding>
               </first_editor>
               <second_editor />
@@ -538,7 +538,7 @@
       <workItem from="1511707966847" duration="151000" />
       <workItem from="1511751544528" duration="1847000" />
       <workItem from="1511883008965" duration="462000" />
-      <workItem from="1511922155783" duration="44000" />
+      <workItem from="1511922155783" duration="498000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1510062626442</created>
@@ -596,11 +596,18 @@
       <option name="project" value="LOCAL" />
       <updated>1511883167841</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update">
+      <created>1511922209321</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1511922209321</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13942000" />
+    <option name="totallyTimeSpent" value="14396000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="0" />
@@ -673,9 +680,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update" />
     <MESSAGE value="created new" />
-    <option name="LAST_COMMIT_MESSAGE" value="created new" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1093,12 +1100,12 @@
     <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="3360">
-            <caret line="160" column="13" lean-forward="true" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
+          <first_editor relative-caret-position="356">
+            <caret line="453" column="6" lean-forward="false" selection-start-line="453" selection-start-column="6" selection-end-line="453" selection-end-column="6" />
             <folding>
-              <marker date="1511922109859" expanded="true" signature="5234:5632" ph="{...}" />
-              <marker date="1511922109859" expanded="true" signature="5264:5430" ph="{...}" />
-              <marker date="1511922109859" expanded="true" signature="5460:5626" ph="{...}" />
+              <marker date="1511922650630" expanded="true" signature="5235:5633" ph="{...}" />
+              <marker date="1511922650630" expanded="true" signature="5265:5431" ph="{...}" />
+              <marker date="1511922650630" expanded="true" signature="5461:5627" ph="{...}" />
             </folding>
           </first_editor>
           <second_editor />
