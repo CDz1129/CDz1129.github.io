@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5d066e3-0eb2-424f-a3f1-d0fb3c5c6f92" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md" afterPath="$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,12 +19,12 @@
         <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="231">
-                <caret line="101" column="16" lean-forward="true" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+              <first_editor relative-caret-position="3360">
+                <caret line="160" column="13" lean-forward="true" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
                 <folding>
-                  <marker date="1511882996252" expanded="true" signature="837:1235" ph="{...}" />
-                  <marker date="1511882996252" expanded="true" signature="867:1033" ph="{...}" />
-                  <marker date="1511882996252" expanded="true" signature="1063:1229" ph="{...}" />
+                  <marker date="1511922109859" expanded="true" signature="5234:5632" ph="{...}" />
+                  <marker date="1511922109859" expanded="true" signature="5264:5430" ph="{...}" />
+                  <marker date="1511922109859" expanded="true" signature="5460:5626" ph="{...}" />
                 </folding>
               </first_editor>
               <second_editor />
@@ -56,6 +56,7 @@
         <option value="$PROJECT_DIR$/_posts/2017-11-03-O(nlogn)排序算法思考.md" />
         <option value="$PROJECT_DIR$/_layouts/page.html" />
         <option value="$PROJECT_DIR$/_posts/2017-11-20-HashMap源码分析.md" />
+        <option value="$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md" />
       </list>
     </option>
   </component>
@@ -85,6 +86,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -102,9 +106,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -536,7 +537,8 @@
       <workItem from="1511681902595" duration="3187000" />
       <workItem from="1511707966847" duration="151000" />
       <workItem from="1511751544528" duration="1847000" />
-      <workItem from="1511883008965" duration="115000" />
+      <workItem from="1511883008965" duration="462000" />
+      <workItem from="1511922155783" duration="44000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1510062626442</created>
@@ -587,11 +589,18 @@
       <option name="project" value="LOCAL" />
       <updated>1511883028844</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="created new">
+      <created>1511883167841</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1511883167841</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13551000" />
+    <option name="totallyTimeSpent" value="13942000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="0" />
@@ -608,7 +617,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16075268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16236559" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -665,7 +674,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="created new" />
+    <option name="LAST_COMMIT_MESSAGE" value="created new" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -701,7 +711,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="525">
             <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -749,7 +758,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="525">
             <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -797,7 +805,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="525">
             <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -845,7 +852,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="525">
             <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -1079,7 +1085,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="331">
             <caret line="228" column="20" lean-forward="false" selection-start-line="228" selection-start-column="20" selection-end-line="228" selection-end-column="20" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -1088,12 +1093,12 @@
     <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="231">
-            <caret line="101" column="16" lean-forward="true" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+          <first_editor relative-caret-position="3360">
+            <caret line="160" column="13" lean-forward="true" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
             <folding>
-              <marker date="1511882996252" expanded="true" signature="837:1235" ph="{...}" />
-              <marker date="1511882996252" expanded="true" signature="867:1033" ph="{...}" />
-              <marker date="1511882996252" expanded="true" signature="1063:1229" ph="{...}" />
+              <marker date="1511922109859" expanded="true" signature="5234:5632" ph="{...}" />
+              <marker date="1511922109859" expanded="true" signature="5264:5430" ph="{...}" />
+              <marker date="1511922109859" expanded="true" signature="5460:5626" ph="{...}" />
             </folding>
           </first_editor>
           <second_editor />
