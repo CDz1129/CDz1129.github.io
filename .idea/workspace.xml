@@ -18,8 +18,8 @@
         <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="21">
-                <caret line="489" column="18" lean-forward="false" selection-start-line="489" selection-start-column="18" selection-end-line="489" selection-end-column="18" />
+              <first_editor relative-caret-position="840">
+                <caret line="518" column="8" lean-forward="false" selection-start-line="518" selection-start-column="8" selection-end-line="518" selection-end-column="8" />
                 <folding>
                   <marker date="1512138794177" expanded="true" signature="5261:5659" ph="{...}" />
                   <marker date="1512138794177" expanded="true" signature="5291:5457" ph="{...}" />
@@ -85,6 +85,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,9 +99,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -536,7 +536,8 @@
       <workItem from="1512138618751" duration="623000" />
       <workItem from="1512186139325" duration="612000" />
       <workItem from="1512267704607" duration="1106000" />
-      <workItem from="1512443604370" duration="38000" />
+      <workItem from="1512443604370" duration="777000" />
+      <workItem from="1512823259722" duration="10000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1510062626442</created>
@@ -636,11 +637,18 @@
       <option name="project" value="LOCAL" />
       <updated>1512304814771</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update">
+      <created>1512443651191</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1512443651191</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17383000" />
+    <option name="totallyTimeSpent" value="18132000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="0" />
@@ -1133,8 +1141,8 @@
     <entry file="file://$PROJECT_DIR$/_posts/2017-11-27-多线程学习实践.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="21">
-            <caret line="489" column="18" lean-forward="false" selection-start-line="489" selection-start-column="18" selection-end-line="489" selection-end-column="18" />
+          <first_editor relative-caret-position="840">
+            <caret line="518" column="8" lean-forward="false" selection-start-line="518" selection-start-column="8" selection-end-line="518" selection-end-column="8" />
             <folding>
               <marker date="1512138794177" expanded="true" signature="5261:5659" ph="{...}" />
               <marker date="1512138794177" expanded="true" signature="5291:5457" ph="{...}" />
