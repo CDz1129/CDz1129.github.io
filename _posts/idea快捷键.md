@@ -1,4 +1,17 @@
-# idea快捷键.md
+---
+layout:     post
+title:      idea快捷键
+subtitle:   效率工具
+date:       2017-12-15
+author:     CDz
+header-img: img/post-cdz-idea.jpg
+catalog: true
+tags:
+    - 效率工具
+    - idea快捷键
+    - Java
+---
+# idea快捷键
 ## 文件跳转
 ### 标记代码
 用于在学习源码时使用
