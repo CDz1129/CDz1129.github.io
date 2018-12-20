@@ -33,3 +33,16 @@ Temporary Items
 
 # debug file
 _site
+
+# Project ignore files
+/.settings
+/.classpath
+/.project
+/.tomcatplugin
+/target
+/work
+*.iml
+/src/main/webapp/.#webclasspath
+
+.idea
+
