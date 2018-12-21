@@ -176,3 +176,136 @@ delete /cdz/insert 无返回
 
 ### watch机制
 
+watch类似与监控机制，可以设置在节点有变动时触发事件。可以设置当前节点的watch事件（父节点的watch事件），也可以设置子节点的watch事件（子节点的watch事件）
+
+watch机制一：
+
+- 对于每一个节点都有一个监督者（watcher）
+- 当监督者发现节点发生变化时，触发相应watch事件
+- watch事件一次性（对于zookeeper服务器来说），触发后即不在有watch监控，需要再次设置（代码层面解决，即客户端可以通过代码逻辑达到永久watch事件）
+
+watch机制二：
+
+- 父节点、子节点增删改都可以触发watch事件
+- 节点不同操作，会触发不同类型的watch事件
+    + 节点创建事件（NodeCreated）
+    + 节点删除事件(NodeDeleted)
+    + 节点修改事件
+
+watch命令学习：
+
+可以通过`stat/ls/ls2/get path watch` 来设置watch事件（即获取节点信息的命令都可以设置watch）
+
+- 创建节点事件:
+
+> 当设置一个未创建的节点，当创建此节点时就会触发`节点创建事件(NodeCreate)`,**注意只有使用stat命令设置watch的节点,才能设置成功创建节点事件**
+
+```
+stat /names watch //当次节点不存在时会报Node does not exist: /names
+```
+```
+Created /names
+WATCHER::
+
+[zk: localhost:2181(CONNECTED) 16]
+WatchedEvent state:SyncConnected type:NodeCreated path:/names
+```
+
+- 节点删除事件
+
+> 所有获取节点（stat/ls/ls1/get）都会生效节点删除事件
+
+```
+stat /names watch
+ls /names watch
+ls1 /names watch
+get /names watch
+```
+```
+
+WATCHER::
+[zk: localhost:2181(CONNECTED) 27]
+WatchedEvent state:SyncConnected type:NodeDeleted path:/names
+```
+
+- 节点修改事件
+
+> 当修改节点信息时,会先触发修改事件,然后打印修改后信息,**注意:**只有`get/stat`命令设置watch事件可以触发`节点修改事件`,使用`ls/ls2`是不会触发节点修改事件的.
+
+```
+stat /names watch
+get /names watch
+```
+```
+
+WATCHER::
+cZxid = 0x32
+
+WatchedEvent state:SyncConnected type:NodeDataChanged path:/names  //注意是先触发的修改事件
+ctime = Fri Dec 21 23:33:43 CST 2018
+mZxid = 0x33
+mtime = Fri Dec 21 23:34:03 CST 2018
+pZxid = 0x32
+cversion = 0
+dataVersion = 1
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 3
+numChildren = 0
+```
+
+- 子节点事件
+
+> 子节点只有`NodeChildrenChanged`事件,且只能通过ls/ls2来设置,无论删除/创建/修改都只会返回`NodeChildrenChanged`事件,
+> 
+> 可以理解成,父节点不关心子节点的内部操作,只关心其所有的子节点是否变化.
+
+```
+ls /names watch
+ls2 /names watch
+```
+
+```
+create /names/son 888
+set /names/son 777
+```
+```
+
+
+WATCHER::Created /names/son
+
+
+WatchedEvent state:SyncConnected type:NodeChildrenChanged path:/names
+```
+
+### acl(access control list)权限控制
+
+- zk的权限控制,可以控制节点的读写操作,保证数据的安全性
+- 权限的permission可以指定不同的权限范围及角色
+
+命令:
+
+- getAcl path 获取节点权限信息
+- setAcl path acl 设置节点权限信息
+- addauth scheme auth 输入注册用户(认证授权信息),输入时使用明文密码,在zk中密码是以密文加密形式存在
+
+#### acl构成
+
+> [scheme:id:permissions]构成权限列表
+
+- scheme 采取某种权限机制(只能使用内置的几种)
+    + world 只有一个用户,就是anyone,任何人都可以访问,形式为`world:anyone:[permissions]`
+    + auth 需要注册认证的用户(即通过`addauth`的用户),形式为`auth:user:password:[permissions]`
+    + digest 同auth一样需要注册认证的用户,但是密码形式不同,密码为加密后密码,形式为`digest:user:BASE64(SHA1(password)):permissions`
+    + ip 可以添加ip权限机制,形式为`ip:162.0.0.1:permissions`
+    + super 代表超级管理员拥有所有权限
+- id 代表访问用户
+- permissions 权限组合字符串(crdwa)
+    + c -> create
+    + r -> read
+    + d -> delete
+    + w -> write
+    + a -> admin (具有此节点修改/设置权限的权限)
+
+digest与auth区别:本质上来讲,更加安全.因为有时候不想给出密码因为密码可以干很多事情,所以有一个权限是通过密文就可以直接登录.
+
