@@ -13,6 +13,8 @@ tags:
 
 应为最近spring-cloud比较火,所以系统的了解一下spring-cloud系统框架,因为学习时,cloud2.0还没有正式发布,所以有很多的坑在其中,解决他们的过程中,也是了解整体框架思路的好方法.
 
+[https://github.com/CDz1129/springcloud_sell.git](https://github.com/CDz1129/springcloud_sell.git)学习源码地址.
+
 # springcloud_sell
 
 eureka:服务注册中心
