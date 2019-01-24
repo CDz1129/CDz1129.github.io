@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      Golang学习笔记八
-subtitle:   面向"对象"-Go自定义结构不能导入包?(GOPATH解密)
-date:       2019-01-19
+title:      记一次USDT安装流程
+subtitle:   附精简流程
+date:       2019-01-24
 author:     CDz
 header-img: img/post-bg-ios9-web.jpg
 catalog: true
@@ -10,14 +10,9 @@ tags:
     - Golang
 ---
 
----
-title: usdt安装
-notebook: 技能学习
-tags:软件安装
----
 
+# 躺坑安装
 usdt git地址:https://github.com/OmniLayer/omnicore
-
 
 依赖:
 
@@ -33,8 +28,8 @@ $yum install automake
 先安装git:
 
 ```
-sudo apt-get install git
-sudo apt-get install pkg-config
+yum install git
+yum apt-get install pkg-config
 ```
 
 usdt核心库:
@@ -81,6 +76,7 @@ Makefile.am:   The usual way to define 'CXX' is to add 'AC_PROG_CXX'
 Makefile.am:   to 'configure.ac' and run 'autoconf' again.
 autoreconf: automake failed with exit status: 1
 ```
+报错原因很清楚没有LIBTOOL这个包
 
 解决:
 ```
@@ -98,15 +94,17 @@ yum install libtool
 checking for Berkeley DB C++ headers... no
 configure: error: libdb_cxx headers missing, Omni Core requires this library for wallet functionality (--disable-wallet to disable wallet functionality)
 ```
+报错没有Berkeley DB这个数据库
 
-安装:
+**安装Berkeley DB:**
+Ubuntu安装:
 ```
 sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get update
 sudo apt-get install libdb4.8-dev libdb4.8++-dev
 ```
 
-centos下
+CentOS下载成功但是编译失败
 ```
 Since there is no libdb++ in official CentOs repo, I've done the following to fix this problem
 
@@ -117,7 +115,7 @@ make
 (as root) make `install`
 ```
 
-这个方法有效:
+CentOS下这个方法有效:
 ```
 last,the resolution is:
 
@@ -133,6 +131,9 @@ rpm -ivh libdb4-cxx-4.8.30-13.el7.x86_64.rpm
 rpm -ivh libdb4-cxx-devel-4.8.30-13.el7.x86_64.rpm﻿​
 ```
 
+-------
+
+安装完成后继续检查:
 ```
 ./configure	//报错
 ```
@@ -189,11 +190,11 @@ cd /src
 
 创建`bitcoin.conf`文件
 
-
+```
 tnet=1
 server=1
-rpcuser=omnicore-free
-rpcpassword=free@sj2#
+rpcuser=
+rpcpassword=
 rpcallowip=116.25.41.18
 rpcport=7778
 txindex=1
@@ -202,8 +203,80 @@ logtimestamps=1
 omnidebug=tally
 omnidebug=packets
 omnidebug=pending
+```
 
+```
+nohup ./omnicored --datadir=/data/btcdata --conf=/root/.bitcoin/bitcoin.conf -testnet&
+```
 
+# 总结(精简流程)
+1.usdt核心库:
+```
+git clone https://github.com/OmniLayer/omnicore.git
+cd omnicore/
+```
+
+2.先安装依赖的包
+```
+$yum install libtool
+$yum install gcc
+$yum install gcc-g++
+$yum install make
+$yum install autoconfig
+$yum install automake
+$yum install libtool
+yum install boost-devel (old boost-devel-1.41.0-18.el6.x86_64)
+yum install openssl-devel
+yum install libevent-devel
+```
+
+3.安装数据库libdb4:
+```
+last,the resolution is:
+
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/libdb4-4.8.30-13.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/libdb4-devel-4.8.30-13.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/libdb4-cxx-4.8.30-13.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/libdb4-cxx-devel-4.8.30-13.el7.x86_64.rpm
+and
+
+rpm -ivh libdb4-4.8.30-13.el7.x86_64.rpm
+rpm -ivh libdb4-devel-4.8.30-13.el7.x86_64.rpm
+rpm -ivh libdb4-cxx-4.8.30-13.el7.x86_64.rpm 
+rpm -ivh libdb4-cxx-devel-4.8.30-13.el7.x86_64.rpm﻿​
+```
+
+4.编译:
+```
+./autogen.sh
+./configure
+make
+```
+
+5.编译完成后:
+```
+cd /src
+./omnicored
+```
+会报错,但是会生成`~/.bitcoin/`目录
+
+6.创建`bitcoin.conf`文件
+```
+tnet=1
+server=1
+rpcuser=
+rpcpassword=
+rpcallowip=116.25.41.18
+rpcport=7778
+txindex=1
+datacarriersize=80
+logtimestamps=1
+omnidebug=tally
+omnidebug=packets
+omnidebug=pending
+```
+
+7.启动
 ```
 nohup ./omnicored --datadir=/data/btcdata --conf=/root/.bitcoin/bitcoin.conf -testnet&
 ```
