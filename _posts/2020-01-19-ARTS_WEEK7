@@ -1,0 +1,773 @@
+---
+layout:     post
+title:      ARTS_WEEK7
+subtitle:   ARTS_WEEK7
+date:       2020-01-19
+author:     CDz
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - ARTS
+---
+
+## although
+
+算法是拖延整个ARTS的罪魁祸首，从简单开始。
+
+类命名：
+- 前缀week6E:
+	- Week6不必解释
+	- E是难易程度分为
+		- Easy
+		- medium
+		- Hard
+- 后缀
+	- LeetCode编号
+
+### Week6EDeleteNode237
+```java
+package com.myserious.code.cdz;
+
+/**
+ * DeleteNode 请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。
+ * 
+ * 现有一个链表 -- head = [4,5,1,9]，它可以表示为:
+ * 
+ * 
+ * 
+ *  
+ * 
+ * 示例 1:
+ * 
+ * 输入: head = [4,5,1,9], node = 5 输出: [4,1,9] 解释:
+ * 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9. 示例 2:
+ * 
+ * 输入: head = [4,5,1,9], node = 1 输出: [4,5,9] 解释:
+ * 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.  
+ * 
+ * 说明:
+ * 
+ * 链表至少包含两个节点。 链表中所有节点的值都是唯一的。 给定的节点为非末尾节点并且一定是链表中的一个有效节点。 不要从你的函数中返回任何结果。
+ * 
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/delete-node-in-a-linked-list
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ * 
+ * 题目有点莫名其妙，只有看到只有一个参数，看半天不知道什么意思
+ */
+public class Week6EDeleteNode237 {
+
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+```
+
+### Week6EMaxDepth104
+```java
+package com.myserious.code.cdz;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+
+/**
+ * 给定一个二叉树，找出其最大深度。
+ * 
+ * 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+ * 
+ * 说明: 叶子节点是指没有子节点的节点。
+ * 
+ * 示例： 给定二叉树 [3,9,20,null,null,15,7]，
+ * 
+ * 3 / \ 9 20 / \ 15 7 返回它的最大深度 3 。
+ * 
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/maximum-depth-of-binary-tree
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week6EMaxDepth104 {
+
+    /**
+     * 深度优先算法
+     * 遍历二叉树
+     * 
+     * 递归实现
+     */
+    public static int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right  = maxDepth(root.right);
+        return Math.max(left, right)+1;
+        //为什么要加1 
+        //Math.max(left, right)+1; 意思是取左右两边，最大的那一层，但是是从0层开始，
+        //所以需要加1
+    }
+    /**
+     * 使用深度优先，
+     * 通过遍历的方式
+     * 
+     * 遍历树的思想
+     * 
+     * 使用一个 队列保存树
+     * 
+     * 每一次遍历一层，将一层中所有的子节点放入 队列，并每遍历一个删除一个
+     * 
+     * 也就是一次遍历一层
+     */
+    public static int maxDepth1(TreeNode root) {
+        
+        if (root==null) {
+            return 0;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int size = 0;
+        int num =0;
+
+        while (!queue.isEmpty()) {
+            size = queue.size();
+            num++;
+            for (int i = 0; i < size; i++) {
+                TreeNode head = queue.poll();
+                if (head.left!=null) {
+                    queue.add(head.left);
+                }
+                if (head.right!=null) {
+                    queue.add(head.right);
+                }
+            }
+        }
+        return num;
+    }
+
+    
+
+
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(2);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(6);
+        root.right.right.left = new TreeNode(1);
+        root.right.right.left.right = new TreeNode(1);
+
+
+        System.out.println(maxDepth(root));
+        
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+        val = x;
+    }
+}
+```
+### Week6EReverseString344
+```java
+package com.myserious.code.cdz;
+
+/**
+ * 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。
+ * 
+ * 不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。
+ * 
+ * 你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。
+ * 
+ *  
+ * 
+ * 示例 1：
+ * 
+ * 输入：["h","e","l","l","o"] 输出：["o","l","l","e","h"]
+ * 
+ * 示例 2：
+ * 
+ * 输入：["H","a","n","n","a","h"] 输出：["h","a","n","n","a","H"]
+ * 
+ * 来源：力扣（LeetCode） 链接：https://leetcode-cn.com/problems/reverse-string
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week6EReverseString344 {
+    public void reverseString(char[] s) {
+        int len = s.length;
+        if (len==1) {
+            return ;
+        }
+        for (int i = 0; i < s.length/2; i++) {
+            swap(s,i,len-i-1);
+        }
+    }
+
+    private void swap(char[] s, int i, int j) {
+        char a = s[i];
+        char b = s[j];
+        char temp  = a;
+        s[i] = b;
+        s[j] = temp;
+    }
+
+    
+}
+```
+### Week6ESortedArrayToBST108
+```java
+package com.myserious.code.cdz;
+
+/**
+ * Week6ESortedArrayToBST108
+ * 
+ * 
+ * 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+ * 
+ * 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+ * 
+ * 示例:
+ * 
+ * 给定有序数组: [-10,-3,0,5,9],
+ * 
+ * 一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+ * 
+ * 0 / \ -3 9 / / -10 5
+ * 
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week6ESortedArrayToBST108 {
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+
+
+        return null;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+}
+```
+
+
+## review
+[一个自己开发APP，运营一个APP，最终收入过万的英文文章][1]
+## tip
+### 设计模式
+#### **理论二：开闭原则：对拓展开放，对修改关闭**
+结合文章中的说明，其实设计模式中大多数设计模式都是为了拓展性而产生。也就是说为了满足开闭原则
+* 不要过度设计
+* 持续迭代重构
+	* 需求业务能想到的拓展点，进行编码时预留拓展
+	* 想不到的，留在未来相同情况，或者需要拓展时，重构拓展
+	*  不要过度设计
+* 写出拓展性的代码关键
+	* 预留拓展点
+	* 尽量让修改代码集中、更少、更上层，尽量让最核心、最复杂的那部分代码逻辑满足“开闭原则”
+* 开闭原则需要具备很高的抽象思维、封装意识、抽象意识、拓展意识。
+* 项目中很多时候是需要，拓展性与可读性的平衡
+* 项目中为什么需要“开闭原则”？
+	* 拓展开发是为了应对需求变化
+	* 修改关闭是为了保证已有代码的稳定性
+	* 最终结果是让代码更具有健壮性
+
+#### **理论三：里式替换（LSP）原则**
+里式替换：所有使用父类的地方，都可以使用子类替换，并且不会出错。
+
+里式替换与多态有什么区别？
+
+多态是语言层面的特性，里式替换是规范了父类与子类、接口与实现之间的关系。
+
+最简单实践：将子类替换父类，再将父类的单元测试重放一遍，如果没有问题大概率没有问题（单元测试的重要性）
+
+根本方法：协议编程（注释），比如一个方法被重写，其中不能多抛出父类没有的异常，以及更多的类型校验。
+
+
+#### **单元测试，重构是编程的一部分**
+* 重构是持续性的
+* 是写代码的一部分
+* 养成code review的习惯，对于自己能力提升是很大帮助
+* 接下来引申一点，如何做到重构且不影响线上
+	* 单元测试
+	* 因为繁琐，所以很难有人能坚持下来
+	* 单元测试确实是重构的基础所在
+	* 如何平衡？
+		* 公司项目，少单元，多重构
+		* 自己的项目，写完后单元测试，加持续重构
+
+### 多线程sleep/wait/notify/join/yield
+#### 更优雅的sleep()
+更优雅的sleep()方法
+`TimeUnit.SECONDS.sleep()`
+原因：
+负数会忽略
+时间容易计算
+
+sleep()当检测到中断信号后，会抛出异常，并且消除线程中断信号
+
+#### Wait/notify实现生产者消费者模式
+```java
+package com.virgocx.scheduled;
+
+
+import java.util.Date;
+import java.util.LinkedList;
+
+
+/**
+ * Created with IntelliJ IDEA.
+ * Description:
+ * User: CDz
+ * Date: 2020-01-06
+ * Time: 上午10:09
+ */
+public class ProducerConsumerModel {
+    public static void main(String[] args) {
+        EventStorage eventStorage = new EventStorage();
+        Producer producer = new Producer(eventStorage);
+        Consumer consumer = new Consumer(eventStorage);
+        new Thread(producer).start();
+        new Thread(consumer).start();
+    }
+}
+
+
+class Producer implements Runnable{
+
+    private EventStorage storage;
+
+    public Producer( EventStorage storage) {
+        this.storage = storage;
+    }
+
+
+    @Override
+    public void run() {
+        for (int i = 0; i <100; i++) {
+            storage.put();
+        }
+    }
+}
+
+
+class Consumer implements Runnable{
+
+    private  EventStorage storage;
+    public Consumer( EventStorage storage) {
+        this.storage = storage;
+    }
+
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 100; i++) {
+            storage.take();
+        }
+    }
+}
+
+
+class EventStorage {
+    private LinkedList<Date> list;
+    private Integer maxLen;
+    public EventStorage() {
+        this.list = new LinkedList<>();
+        this.maxLen = 10;
+    }
+
+    public synchronized void put(){
+        while (list.size()==maxLen){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        list.add(new Date());
+        System.out.println("厂库里有了"+list.size());
+        notify();
+    }
+
+    public synchronized void take(){
+        while (list.size()==0){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("消费者开始消费"+list.poll()+"，厂库剩余"+list.size());
+        notify();
+    }
+}
+```
+打印输出：
+```
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+厂库里有了5
+厂库里有了6
+厂库里有了7
+厂库里有了8
+厂库里有了9
+厂库里有了10
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余9
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余8
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余7
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余6
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余5
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+厂库里有了1
+厂库里有了2
+厂库里有了3
+厂库里有了4
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余3
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余2
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余1
+消费者开始消费Mon Jan 06 10:24:05 CST 2020，厂库剩余0
+```
+因为我们每次添加或者取出时都会notify，这样的就不会每次等到队列满了之后才去让消费者消费，实现了一个异步的过程，一边添加一边消费（两个线程）
+
+但是我们看到打印，却又很多还是集中消费的情况，这是为什么呢？
+其实之前有提到当一**个线程被唤醒后，不是立即执行，而是有权与其他执行线程一起争夺CPU执行权（CPU同一时刻只能执行一个指令）**
+
+#### wait相关面试题
+* 使用程序实现两个线程交替打印0100的奇偶数
+* 手写生产者消费设计模式
+	* **话题引领——面试技巧，找到自己擅长点，然后从对方的话语中引导到自己擅长的地方**
+	* 比如对方问道，熟悉那些设计模式——说自己熟悉生产者消费模式，业务中经常使用
+* 为什么wait()需要在同步代码块内使用，而sleep()不需要
+	* 多线程通信可靠
+* 为什么线程通信方法wait(),notify()和notifyAll()被定义在Object类里？而sleep()定义在Thread类中？
+	* 一个线程可能持有多把锁
+	* 定义在Object类中，方便锁的协调，如果定义在Thread类中，很难进行线程间的通信
+	* sleep()一般是线程内，自己的行为，所以并不需要什么进行通信，所以定义在Thread类中
+* wait方法是属于Object对象的，那调用Thread.wait()会怎么样？
+	* 当然可以调用，因为Thread类也是继承Object
+	* Thread类比较特殊，在Thread线程结束的时候，会调用notify方法（底层），所以会导致线程通信问题，最好不要使用
+* 如何选择用notify还是notifyAll？
+* notifyAll之后所有的线程都会再次抢夺锁，如果某线程抢夺失败怎么办 ？
+	* CPU同一时间只能执行一个线程（CPU时间片），人为控制不了
+	* 其他线程，在等待争夺的状态
+#### wait/notify、sleep异同（方法属于哪个对象？线程状态怎么切换？）
+- 相同
+	- 堵塞
+	- 相应中断
+- 不同
+	- wait需要在同步代码块中
+	- wait可以不传入时间
+	- wait释放锁，sleep不释放锁
+	- wait/notify在object类，sleep在thread类
+#### join
+##### Join谁等待谁？
+主-\>等-\>子 的过程
+
+join被中断：
+中断的是主线程
+同时要将中断**传递给子线程**
+（如果不传递，子线程会一直执行完，出现线程错乱）
+
+join()主线程 WAITING状态
+
+##### join源码解析
+join源码：
+核心是使用wait()
+
+但是没有看到notify，
+其原因是，每一个Thread类的每个run方法结束后，都会调用notifyAll()（native方法）
+
+等价于：
+```java
+synchronized(thread){
+    thread.wait();
+}
+```
+
+#### yield方法
+yield方法：
+作用：释放调用线程CPU时间片
+定位：JVM不保证遵循
+yield和sleep区别：是否随时可能再次调用
+
+## share
+
+### 好的问题有启发性
+
+#### 算清楚你一辈子要整多少钱？
+算清楚你一辈子要整多少钱？
+
+原来这还可以去衡量一个人幸福的根源。
+
+其实这个问题，在星星来深圳的时候，我们讨论过，并且后来我还认真思考过，当时拍脑袋想出来的1000W。
+
+后来自己仔细算了一下，1000W并不困难，并且其实来说只需要平均一年收入20多万就可以达到1000W的水平，虽然自己之前没有达到过20W一念，但是你想啊，你的年薪上去了还会下来很大吗？也就是说这是一个逐步提升的过程，当你超过这个平均值后，往后每年都会比这个平均值要高，也就是说如果工作时间是45年，那么前22.5年都低于平均也没有关系。
+
+接下来思考就更好玩了，现在深圳的房价大概在400W左右，算下来其实是可以承受的，但是到底值不值得呢？
+
+如果一辈子挣的钱是1000W，那么怎么去分配这一千万更加合理，有更幸福呢？
+
+#### 有一个长生不老的人藏在人间，你有什么办法可以把它找出来，并且不让其他人发现？
+
+#### 做什么样的事情才能让所有人都讨厌你？
+
+#### 面对变革，人的本能都是抗拒的，那么该如何办？
+
+#### 我能帮你什么？
+
+顺着这个思维，刚刚在朋友圈，有一个人微信朋友创业的在得到群里认识的。
+
+最近在办一个活动，经常发朋友圈，之前看到了老喻的一句俏皮话：一场完美的聚会，意味着一场默契的集体幻觉。
+
+这让我瞬间对一场活动，有了根本性的方向。
+
+感觉对我有启发，于是分先给了她，当然我并不知道她是怎么想的，确实这句话不是那么阳光，也并不是那么负面。
+
+因为自己帮助了别人后，觉得挺高兴的，一直脑海里回想着一句话，不要想别人能帮你什么，而要想你能帮助别人什么？
+
+刚刚在洗澡的时候突然想到，最近我在公司的情况，特别是我和晓博尴尬的关系，我一心只想着逃离，没有想过如何去改变这一局面。
+
+其实自己是错过了一个大的机会，换个角度去看问题。
+
+我能帮到你什么？
+
+现在我的工作很不饱和，但是其他人都很忙，其实我可以主动的询问晓博，你需要我的帮助吗？或者说我能够帮到你什么，任何事情，都可以丢给我。
+
+那么就可以想到，其实可以分担很多事情，比如说页面的逻辑测试，工作上的难题指导...等等。
+
+#### 文章分享
+[一个自己开发APP，运营一个APP，最终收入过万的英文文章][1]
+
+[如何写一份有效的技术简历？ - 阮一峰的网络日志][2]
+
+#### 一些不太正确的想法
+
+##### 你的优势，同时也是限制你的劣势
+
+##### 看电影，多找找导演想说的，或者导演隐藏的，欲言又止的东西
+
+##### 有些人的优越感来自外部，有些人的优越感来自内心。
+有些人的优越感来自外部，有些人的优越感来自内心。
+
+看到朋友圈，一些别具一格的晒，与言论有感。
+
+一些人来自内心的自我认同，另一些人来自内心想象的他人对自己的认同。
+
+以上都是表面观察，关键点：正确的自我评估能力。
+
+##### 最近的矛盾
+
+最近看清楚了，人都是不情愿被否定的，一旦你否定对方说的，立马就会跟你处于敌对状态。
+
+但是有时候确实对方说的不符合自己的观念，不回应心里不舒服，回应伤感情。
+
+回应之前，需要 肯定 ，也就是 Yes...And...，但是却让我有些难受，特别觉得越来越虚伪。
+
+原来当看透别人喜欢听什么的时候，敢于说出对方不爱听的话，也是一种勇气。
+
+[1]:	https://www.starterstory.com/stripe-in-person-payments 
+[2]:	http://www.ruanyifeng.com/blog/2020/01/technical-resume.html 
