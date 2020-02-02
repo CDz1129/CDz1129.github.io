@@ -1,0 +1,849 @@
+---
+layout:     post
+title:      ARTS_WEEK8
+subtitle:   ARTS_WEEK8
+date:       2020-01-26
+author:     CDz
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - ARTS
+---
+
+这周是春节期间，但是这个2020的年过的并不像往常一样。
+算法方面这周主要研究：
+- 栈（先进后出）
+专栏：
+- MySQL专栏学习
+- 数据结构与算法：栈（一篇）
+视频：
+这周看的非常少，所以没有记录笔记。
+
+在家里没有办法静下心来做ARTS。这周经历的，也是过了这多年，第一次如此过年，大家都在家里不出门，而我在大年初一就坐上了回深圳飞机。
+
+也是在深圳家里，才能静下心刷LeetCode。
+## although
+### 栈练习
+#### 比较含退格的字符串（844）
+1. 使用栈的特性，先进先出，可以很方便的实现。
+2. 也可以使用方向遍历，然后使用信号量，遇到#下一个就跳过。
+
+```java
+package com.myserious.code.cdz;
+
+import java.util.Objects;
+import java.util.Stack;
+
+/**
+ * 844. 比较含退格的字符串
+ * 给定 S 和 T 两个字符串，当它们分别被输入到空白的文本编辑器后，判断二者是否相等，并返回结果。 # 代表退格字符。
+ * <p>
+ *  
+ * <p>
+ * 示例 1：
+ * <p>
+ * 输入：S = "ab#c", T = "ad#c"
+ * 输出：true
+ * 解释：S 和 T 都会变成 “ac”。
+ * 示例 2：
+ * <p>
+ * 输入：S = "ab##", T = "c#d#"
+ * 输出：true
+ * 解释：S 和 T 都会变成 “”。
+ * 示例 3：
+ * <p>
+ * 输入：S = "a##c", T = "#a#c"
+ * 输出：true
+ * 解释：S 和 T 都会变成 “c”。
+ * 示例 4：
+ * <p>
+ * 输入：S = "a#c", T = "b"
+ * 输出：false
+ * 解释：S 会变成 “c”，但 T 仍然是 “b”。
+ *  
+ * <p>
+ * 提示：
+ * <p>
+ * 1 <= S.length <= 200
+ * 1 <= T.length <= 200
+ * S 和 T 只含有小写字母以及字符 '#'。
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/backspace-string-compare
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week8EBackspaceCompare844 {
+
+    /**
+     * 此解法 遍历了三次
+     * 时间复杂度是大于O(M+N)的
+     * <p>
+     * 而最后一次可以省略
+     *
+     * @param S
+     * @param T
+     * @return
+     */
+    public boolean backspaceCompare(String S, String T) {
+
+        Stack<Character> s1 = new Stack<>();
+        Stack<Character> s2 = new Stack<>();
+
+        for (int i = 0; i < S.length(); i++) {
+            char c = S.charAt(i);
+            if (c == '#') {
+                if (!s1.empty()) {
+                    s1.pop();
+                }
+                continue;
+            }
+            s1.push(c);
+        }
+        for (int i = 0; i < T.length(); i++) {
+            char c = T.charAt(i);
+            if (c == '#') {
+                if (!s2.empty()) {
+                    s2.pop();
+                }
+                continue;
+            }
+            s2.push(c);
+        }
+
+
+        if (s1.size() == s2.size()) {
+            while (!s1.empty()) {
+                if (s1.pop() != s2.pop())
+                    return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 优化
+     * <p>
+     * 省略最后一步遍历
+     * （其实并没有省略，因为底层调用的是toString，toString又调用了迭代器）
+     * <p>
+     * 且重构代码
+     *
+     * @param S
+     * @param T
+     * @return
+     */
+    public boolean backspaceCompare1(String S, String T) {
+        return build(S).equals(build(T));
+    }
+
+    private String build(String s) {
+        Stack<Character> s1 = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '#') {
+                if (!s1.empty()) {
+                    s1.pop();
+                }
+                continue;
+            }
+            s1.push(c);
+        }
+        //其实 Stack的toString 一样也是使用到了迭代器
+        return String.valueOf(s1);
+    }
+
+
+    /**
+     * 使用信号量方式
+     *
+     * @param S
+     * @param T
+     * @return
+     */
+    public static boolean backspaceCompare2(String S, String T) {
+        int b = 0;
+
+        StringBuilder sbS = new StringBuilder();
+        for (int i = S.length() - 1; i >= 0; i--) {
+            char c = S.charAt(i);
+            if (c == '#') {
+                b++;
+                continue;
+            }
+
+            if (b == 0) {
+                sbS.append(c);
+            } else {
+                b--;
+            }
+
+        }
+        b = 0;
+        StringBuilder sbT = new StringBuilder();
+        for (int i = T.length() - 1; i >= 0; i--) {
+            char c = T.charAt(i);
+            if (c == '#') {
+                b++;
+                continue;
+            }
+            if (b == 0) {
+                sbT.append(c);
+            } else {
+                b--;
+            }
+        }
+        return Objects.equals(sbS.toString(),sbT.toString());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(backspaceCompare2("ab#c", "ab#c"));
+    }
+
+}
+```
+
+#### 棒球比赛（682）
+熟悉栈模型
+
+```java
+package com.myserious.code.cdz;
+
+import java.util.Stack;
+
+/**
+ * 682. 棒球比赛
+ * <p>
+ * 你现在是棒球比赛记录员。
+ * 给定一个字符串列表，每个字符串可以是以下四种类型之一：
+ * 1.整数（一轮的得分）：直接表示您在本轮中获得的积分数。
+ * 2. "+"（一轮的得分）：表示本轮获得的得分是前两轮有效 回合得分的总和。
+ * 3. "D"（一轮的得分）：表示本轮获得的得分是前一轮有效 回合得分的两倍。
+ * 4. "C"（一个操作，这不是一个回合的分数）：表示您获得的最后一个有效 回合的分数是无效的，应该被移除。
+ * <p>
+ * 每一轮的操作都是永久性的，可能会对前一轮和后一轮产生影响。
+ * 你需要返回你在所有回合中得分的总和。
+ * <p>
+ * 示例 1:
+ * <p>
+ * 输入: ["5","2","C","D","+"]
+ * 输出: 30
+ * 解释:
+ * 第1轮：你可以得到5分。总和是：5。
+ * 第2轮：你可以得到2分。总和是：7。
+ * 操作1：第2轮的数据无效。总和是：5。
+ * 第3轮：你可以得到10分（第2轮的数据已被删除）。总数是：15。
+ * 第4轮：你可以得到5 + 10 = 15分。总数是：30。
+ * 示例 2:
+ * <p>
+ * 输入: ["5","-2","4","C","D","9","+","+"]
+ * 输出: 27
+ * 解释:
+ * 第1轮：你可以得到5分。总和是：5。
+ * 第2轮：你可以得到-2分。总数是：3。
+ * 第3轮：你可以得到4分。总和是：7。
+ * 操作1：第3轮的数据无效。总数是：3。
+ * 第4轮：你可以得到-4分（第三轮的数据已被删除）。总和是：-1。
+ * 第5轮：你可以得到9分。总数是：8。
+ * 第6轮：你可以得到-4 + 9 = 5分。总数是13。
+ * 第7轮：你可以得到9 + 5 = 14分。总数是27。
+ * 注意：
+ * <p>
+ * 输入列表的大小将介于1和1000之间。
+ * 列表中的每个整数都将介于-30000和30000之间。
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/baseball-game
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week8ECalPoints682 {
+
+    public static int calPoints(String[] ops) {
+
+        Stack<Integer> stack = new Stack<>();
+        for (String op : ops) {
+            switch (op){
+                case "+":
+                    //表示本轮获得的得分是前两轮有效 回合得分的总和。
+                    add2preNum(stack);
+                    break;
+                case "D":
+                    //表示本轮获得的得分是前一轮有效 回合得分的两倍。
+                    doublePreNum(stack);
+                    break;
+                case "C":
+                    //表示您获得的最后一个有效 回合的分数是无效的，应该被移除。
+                    delPreNum(stack);
+                    break;
+                default:
+                    //直接表示您在本轮中获得的积分数。
+                    stack.push(Integer.valueOf(op));
+                    break;
+            }
+        }
+
+        int allNum = 0;
+
+        while (!stack.empty()){
+            allNum+=stack.pop();
+        }
+
+        return allNum;
+    }
+
+    private static void delPreNum(Stack<Integer> stack) {
+        stack.pop();
+    }
+
+    private static void doublePreNum(Stack<Integer> stack) {
+        Integer peek = stack.peek();
+        stack.push(peek*2);
+    }
+
+    /**
+     * 这个想复杂了，直接拿出来添加进去就好了
+     * @param stack
+     */
+//    private static void add2preNum(Stack<Integer> stack) {
+//        Stack<Integer> temp = new Stack<>();
+//        int currNum = 0;
+//        for (int i = 0; i <= stack.size(); i++) {
+//            Integer pop = stack.pop();
+//            if (i==0||i==1){
+//                currNum+=pop;
+//            }
+//            temp.push(pop);
+//        }
+//        while (!temp.empty()){
+//            stack.push(temp.pop());
+//        }
+//        stack.push(currNum);
+//    }
+
+    private static void add2preNum(Stack<Integer> stack) {
+        Integer pop = stack.pop();
+        Integer peek = stack.peek();
+        stack.push(pop);
+        stack.push(pop+peek);
+    }
+
+    public static void main(String[] args) {
+        args = new String[]{"5","2","C","D","+"};
+        System.out.println(calPoints(args));
+    }
+}
+```
+#### 有效的括号（20）
+栈+map实现
+
+```java
+package com.myserious.code.cdz;
+
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Stack;
+
+/**
+ * Created with IntelliJ IDEA.
+ * Description:
+ * User: CDz
+ * Date: 2020-01-21
+ * Time: 上午11:48
+ * 有效的括号
+ * <p>
+ * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+ * <p>
+ * 有效字符串需满足：
+ * <p>
+ * 左括号必须用相同类型的右括号闭合。
+ * 左括号必须以正确的顺序闭合。
+ * 注意空字符串可被认为是有效字符串。
+ * <p>
+ * 示例 1:
+ * <p>
+ * 输入: "()"
+ * 输出: true
+ * 示例 2:
+ * <p>
+ * 输入: "()[]{}"
+ * 输出: true
+ * 示例 3:
+ * <p>
+ * 输入: "(]"
+ * 输出: false
+ * 示例 4:
+ * <p>
+ * 输入: "([)]"
+ * 输出: false
+ * 示例 5:
+ * <p>
+ * 输入: "{[]}"
+ * 输出: true
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/valid-parentheses
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week8EIsValid20 {
+
+    public static boolean isValid(String s) {
+
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put('[',']');
+        map.put('(',')');
+        map.put('{','}');
+
+        Stack<Character> left = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)){
+                left.push(c);
+            }else {
+                //防止先有])这样的符号，其实可以有另一种方式
+//                if (left.size()==0){
+//                    return false;
+//                }
+
+                //另一种方式
+                //添加更简洁，但是执行比上一种多一行
+                char c1 = left.isEmpty() ? '#' : left.pop();
+                if (!Objects.equals(map.get(c1),c)) {
+                    return false;
+                }
+            }
+        }
+        return left.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        String s="([)]";
+        System.out.println(isValid(s));
+
+    }
+
+}
+```
+#### 最小栈（155）
+使用两个栈来实现，
+- 一个保存原有栈信息
+- 一个保存最小数（重复，目的和原有栈保持数量一致）
+- 注意点：两个栈需要一起pop
+
+```java
+package com.myserious.code.cdz;
+
+import java.util.Stack;
+
+/**
+ * Created with IntelliJ IDEA.
+ * Description:
+ * User: CDz
+ * Date: 2020-01-21
+ * Time: 下午3:19
+ * 155. 最小栈
+ * <p>
+ * 设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。
+ * <p>
+ * push(x) -- 将元素 x 推入栈中。
+ * pop() -- 删除栈顶的元素。
+ * top() -- 获取栈顶元素。
+ * getMin() -- 检索栈中的最小元素。
+ * 示例:
+ * <p>
+ * MinStack minStack = new MinStack();
+ * minStack.push(-2);
+ * minStack.push(0);
+ * minStack.push(-3);
+ * minStack.getMin();   --> 返回 -3.
+ * minStack.pop();
+ * minStack.top();      --> 返回 0.
+ * minStack.getMin();   --> 返回 -2.
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/min-stack
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week8EMinStack155 {
+    public static void main(String[] args) {
+
+        MinStack minStack = new MinStack();
+
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+    }
+
+    static class MinStack {
+
+        private Stack<Integer> data;
+        //存储最小值
+        private Stack<Integer> hepler;
+
+        /** initialize your data structure here. */
+        public MinStack() {
+            this.data = new Stack<>();
+            this.hepler = new Stack<>();
+        }
+
+        public void push(int x) {
+            data.push(x);
+            if (hepler.isEmpty()||hepler.peek()>x){
+                hepler.push(x);
+            }else {
+                //添加自己上一个元素
+                hepler.push(hepler.peek());
+            }
+        }
+
+        public void pop() {
+            if (!data.isEmpty()){
+                data.pop();
+                hepler.pop();
+            }
+        }
+
+        public int top() {
+            return data.peek();
+        }
+
+        public int getMin() {
+            return hepler.peek();
+        }
+    }
+}
+```
+#### 用栈实现队列（232）
+- 栈：先进后先
+- 队列：先进后出
+根据这的特性，使用两个栈可以实现，一个队列。
+
+也可以使用链表结构实现队列。
+
+```java
+package com.myserious.code.cdz;
+
+import java.util.Stack;
+
+/**
+ * 232. 用栈实现队列
+ * 使用栈实现队列的下列操作：
+ * <p>
+ * push(x) -- 将一个元素放入队列的尾部。
+ * pop() -- 从队列首部移除元素。
+ * peek() -- 返回队列首部的元素。
+ * empty() -- 返回队列是否为空。
+ * 示例:
+ * <p>
+ * MyQueue queue = new MyQueue();
+ * <p>
+ * queue.push(1);
+ * queue.push(2);
+ * queue.peek();  // 返回 1
+ * queue.pop();   // 返回 1
+ * queue.empty(); // 返回 false
+ * 说明:
+ * <p>
+ * 你只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。
+ * 你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+ * 假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/implement-queue-using-stacks
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class Week8EMyQueue232 {
+
+    /**
+     * 使用链表实现一个 队列
+     */
+    static class MyQueue {
+
+        private int size;
+
+        private ListNode head;
+
+        private ListNode tail;
+
+
+        /**
+         * Initialize your data structure here.
+         */
+        public MyQueue() {
+            this.size = 0;
+        }
+
+        /**
+         * Push element x to the back of queue.
+         */
+        public void push(int x) {
+            ListNode listNode = new ListNode(x);
+            if (empty()) {
+                head = listNode;
+                tail = listNode;
+            }
+            tail.next = listNode;
+            tail = tail.next;
+            size++;
+        }
+
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
+        public int pop() {
+
+            if (size == 0) {
+                throw new NullPointerException("队列为空");
+            }
+            int val = head.val;
+
+            if (size == 1) {
+                head = null;
+                tail = null;
+            } else {
+                head = head.next;
+            }
+            size--;
+            return val;
+
+        }
+
+        /**
+         * Get the front element.
+         */
+        public int peek() {
+            if (size == 0) {
+                throw new NullPointerException("队列为空");
+            }
+            return head.val;
+        }
+
+        /**
+         * Returns whether the queue is empty.
+         */
+        public boolean empty() {
+            return size == 0;
+        }
+
+
+        class ListNode {
+            int val;
+            ListNode next;
+
+            ListNode(int x) {
+                val = x;
+            }
+        }
+    }
+
+
+    /**
+     * 使用栈 实现队列
+     * 解法一
+     * 使用两个栈
+     * <p>
+     * 首位记录
+     * <p>
+     * 两个栈 进行调换
+     * 先进S1 将S1所有放入S2
+     * 再将所有S2放入S1，这样就倒过来了
+     * <p>
+     * 入队O(n) 出队O(1)
+     * 因为入队，需要的两次遍历S1与S2
+     */
+    static class MyQueue1 {
+
+
+        private Stack<Integer> s1;
+
+        private Stack<Integer> s2;
+
+        private int front;
+
+        /**
+         * Initialize your data structure here.
+         */
+        public MyQueue1() {
+            s1 = new Stack<>();
+            s2 = new Stack<>();
+        }
+
+        /**
+         * Push element x to the back of queue.
+         */
+        public void push(int x) {
+            if (empty()) {
+                front = x;
+            }
+
+            while (!s1.empty()) {
+                s2.push(s1.pop());
+            }
+            s2.push(x);
+            while (!s2.empty()) {
+                s1.push(s2.pop());
+            }
+        }
+
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
+        public int pop() {
+            if (s1.empty()) {
+                throw new NullPointerException("队列为空");
+            }
+            Integer pop = s1.pop();
+            if (!s1.empty()) {
+                front = s1.peek();
+            }
+            return pop;
+        }
+
+        /**
+         * Get the front element.
+         */
+        public int peek() {
+            if (s1.empty()) {
+                throw new NullPointerException("队列为空");
+            }
+            return front;
+        }
+
+        /**
+         * Returns whether the queue is empty.
+         */
+        public boolean empty() {
+            return s1.empty();
+        }
+    }
+
+    /**
+     * 使用栈 实现队列
+     * 解法二
+     * <p>
+     * 懒加载形式
+     * <p>
+     * 所有入队直接放入S1
+     * 当需要拿出时，将S1全部倒入S2，再从S2中top出元素
+     *
+     * 入队O(1) 出队O(1)(换摊分析)
+     * 因为出队是一个懒加载的形式，每一次O(n)操作对应都是N个O(1)操作，所以是O(1)
+     */
+    static class MyQueue2 {
+
+
+        private Stack<Integer> s1;
+
+        private Stack<Integer> s2;
+
+        private int front;
+
+        /**
+         * Initialize your data structure here.
+         */
+        public MyQueue2() {
+            s1 = new Stack<>();
+            s2 = new Stack<>();
+        }
+
+        /**
+         * Push element x to the back of queue.
+         */
+        public void push(int x) {
+            if (s1.empty()) {
+                front = x;
+            }
+            s1.push(x);
+        }
+
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
+        public int pop() {
+            Integer pop = 0;
+            if (!s2.empty()) {
+                pop = s2.pop();
+            } else {
+                while (!s1.empty()) {
+                    s2.push(s1.pop());
+                }
+                pop = s2.pop();
+            }
+            if (!s2.empty()){
+                front = s2.peek();
+
+            }
+            return pop;
+        }
+
+        /**
+         * Get the front element.
+         */
+        public int peek() {
+            if (empty()) {
+                throw new NullPointerException("队列为空");
+            }
+            return front;
+        }
+
+        /**
+         * Returns whether the queue is empty.
+         */
+        public boolean empty() {
+            return s1.empty() && s2.empty();
+        }
+    }
+
+
+    public static void main(String[] args) {
+        MyQueue1 myQueue = new MyQueue1();
+        myQueue.push(1);
+        myQueue.push(2);
+        myQueue.push(3);
+
+        System.out.println(myQueue.pop());
+        System.out.println(myQueue.pop());
+        System.out.println(myQueue.pop());
+        System.out.println(myQueue.empty());
+    }
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */
+}
+
+```
+## review
+[Redis-lru-cache实现机制][1]
+## tip
+- **出门戴口罩，注意防护病毒**
+## share
+### [MySQL select流程][2]
+### [MySQL update一行数据的流程][3]
+### LRU与LFU有什么区别？
+LRU（ least recently used） 最近最少使用
+每次被调用后就会排序到前面
+
+LFU （Least Frequently Used ）最近最不常使用
+每次被调用后不会立即排序到最前面，而是记录下访问次数，这样更精准的统计。
+
+redis中LRU与LFU进化：http://antirez.com/news/109
+
+
+
+
+[1]:	https://redis.io/topics/lru-cache
+[2]:	https://app.yinxiang.com/fx/52c2884e-4fa7-419c-a8a5-c2cf135fc215
+[3]:	https://app.yinxiang.com/fx/7947e806-fc6a-432d-bac1-76a88175e006
