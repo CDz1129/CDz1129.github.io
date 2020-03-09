@@ -1,0 +1,119 @@
+---
+layout:     post
+title:      JVM知识——Java运行时内存结构
+subtitle:   Java运行时内存结构
+date:       2020-03-09
+author:     CDz
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - JVM
+---
+资料来源：[https://www.bilibili.com/video/av92883117?t=13](https://www.bilibili.com/video/av92883117?t=13)
+
+# Java运行时内存结构
+
+![Java虚拟机运行时数据区](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwqeehwdj30dw09kdgo.jpg)
+
+分为六大块：
+- 方法区
+	- 主要一些静态变量、常量
+		- final
+		- static
+		- String
+- 堆
+	- 对象的实例、数组
+	- 当新建的对象过多，堆不够时会发生OOM
+- 虚拟机栈
+	- Java方法
+		- 先进后出原则
+	- 当调用方法栈中，过多时会出现OOM
+		- 常见于递归
+- 本地方法栈
+	- 本地方法，被native修饰的方法
+		- `c、c++`实现
+- 程序计数器
+	- 计数器，主要记录程序运行的行数
+	- 是代码执行的控制器
+	- 线程私有
+
+## 程序计数器
+
+**唯一一个不会内存溢出的区域**
+
+主要作用：记录程序的*运行行数*，且程序私有。
+
+### 一个for循环是如何运行的？
+
+```java
+1️⃣int a = 0;
+2️⃣for(int i = 0;i<10;i++){
+3️⃣	a++;
+4️⃣}
+```
+
+运行流程是：
+- 计数器计数此方法运行的行数
+- 当运行4️⃣时
+- 计数器变为2️⃣
+- 重新从2️⃣开始向下运行
+
+## 垃圾回收
+
+想要能够垃圾回收，就必须*先知道哪些对象会被回收*，最简单的垃圾回收策略是*计数器法*
+
+### 计数器法
+
+顾名思义，计数器法，就是将对象*引用次数*进行计数
+- 被引用时，此对象引用次数+1
+- 断开引用时，引用次数-1
+
+![计数器法](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwr1jjuwj313e0k20zd.jpg)
+#### 弊端
+当出现循环引用时，就会出现回收不了的情况。
+
+为了解决此类问题，Java使用的是*可达性分析算法*。
+
+![循环引用情况](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwrhuf4cj30u80e4dit.jpg)
+
+### 可达性分析算法
+
+可达性分析算法，是通过GCRoots的树形结构来进行判断。
+![GCRoots可达性分析](https://tva1.sinaimg.cn/large/00831rSTgy1gcnws08znhj30ki0duju3.jpg)
+
+与GCRoots相连的对象就不会被回收，没有在这颗树上的对象就会被回收。
+
+#### 那么如果确定GCRoots对象？
+
+Java中规定：
+
+1. 虚拟机栈中引用的对象
+2. 本地方法栈中JNI引用对象
+3. 方法区中静态对象属性引用的对象
+4. 方法区中常量引用的对象
+
+如图：箭头表示GCRoots对象。
+![GCRoots标记](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwsegdq7j31280oa7b1.jpg)
+
+如图可以看出，引用是关键，各个区域都会引用到*堆*中的对象。
+#### 四种引用类型
+- 强引用
+	- `Object o = new Object();`
+- 弱引用
+	- `SoftReference`
+	- 当内存将要不足时，快要发生OOM时，被回收
+		- 虽然此时有被引用
+- 软引用
+	- `WeakReference`
+	- 下次GC时被回收，也就是说只能存活一个GC空档期
+- 虚引用
+	- `PhantomReference`
+	- 只是在GC时会发出一个通知，`get()`永远是null
+	- 最弱的一层
+
+依次向下引用强度递减。
+
+##### 什么叫做引用强度？
+引用强度是根据垃圾回收来决定的，也就是说，有些引用，我们希望在*堆快要不够用的时候*，可以将其回收掉，虽然此时有地方被引用了。
+
+这样的就属于比较弱的引用。
