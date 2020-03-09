@@ -1,0 +1,163 @@
+
+---
+layout:     post
+title:      JVM知识——垃圾收集器发展史
+subtitle:   垃圾收集器发展史
+date:       2020-03-09
+author:     CDz
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - JVM
+---
+
+### 垃圾收集器发展史
+#### 第一代：Serial收集器、Serial Old收集器
+##### Serial收集器
+- 在JDK1.3.1之前唯一的选择，只能使用此收集器
+- 单线程
+- STW
+	- stop the world
+	- 一直在发展，缩短STW时间
+- client端有优势
+##### Serial Old收集器
+ - Serial收集器的老年代版本
+- 单线程
+- Current Mode Failure会被迫启动
+	- 并发模式失败，指在CMS收集器，并发收集失败。
+
+#### 第二代：ParNew收集器
+- Serial收集器的多线程版本
+- 并不一定就Serial收集器好
+	- 在只有单核CPU的机器上，会有上下文切换的性能消耗
+
+#### 第三代：Parallel Scavenge收集器（复制-整理）
+- 多线程，复制算法，并发进行
+- 引入**吞吐量概念**
+	- 吞吐量=用户线程工作时间/(用户线程工作时间+GC时间)
+	- 假设吞吐率(`-XX:GCTimeRatio`)为0.95
+		- x/(x+y)= 0.95 
+			- 公式看出：会根据用户工作时间去自适应GC时间
+			- 当y(用户工作时间)为19时，x(GC工作时间)就为1
+				- 19/(19 +1)=0.95
+- 最大垃圾收集时间
+	- `-xx:MaxGCPauseMills`
+- 吞吐量设置
+	- `-xx:GCTimeTatio`
+- 自适应young区比例:默认8：1：1
+	- `-xx:+UseAdaptiveSizePolicy`
+
+#### 第四代：Parallel Old收集器
+- 这是在第三代（Parallel Scavenge收集器）之后才出的收集器
+- 在此出之前Parallel Scavenge收集器非常难用
+	- 原因：老年代只能使用`Serial Old收集器`
+		- 如果年轻代使用*多线程收集*
+		- 而老年代又换成*单线程收集*
+		- 而老年代本身就会收集时间很长，所以效率没有提升太多。
+
+#### 第五代（划时代）：CMS(Concurrent Mark Sweep)
+
+![CMS简化图](https://tva1.sinaimg.cn/large/00831rSTgy1gcnw9yf3jdj30tq0i843k.jpg)
+- CMS
+	- 全称：并发标记清除收集器
+	- 是一个老年代收集器
+
+并发处理流程
+1. 初始标记
+	1. 只标记GCRoots**直接关联**对象
+	2. STW
+	3. 很快
+2. 并发标记
+	1. 与工作线程并行
+	2. 接着GCRoots继续向下标记所有关联对象
+3. 重新标记
+	1. 由于*并发标记*时用户线程还可能产生新的垃圾，所以需要重新标记
+	2. STW
+4. 并发清理
+	1. 异步清理
+
+缺点：
+-  CPU密集动作都是与用户线程并行
+	- 与用户线程抢占资源
+- 浮动垃圾
+	- 当4步清理时，只会清除1步标记的GCRoots
+	- 如果在1步后新产生的垃圾，不会被回收
+	- **如果此时内存不够生成新对象，会触发Current Mode Failure**，使用`Serial Old收集器`
+- 标记清理算法
+	- 本身会产生垃圾碎片
+
+#### 第六代(Java9默认):G1收集器
+[https://tech.meituan.com/2016/09/23/g1.html](https://tech.meituan.com/2016/09/23/g1.html "Java Hotspot G1 GC的一些关键技术")
+
+G1垃圾回收简图：
+![](https://awps-assets.meituan.net/mit-x/blog-images-bundle-2016/8ca16868.png)
+
+![G1简化图](https://tva1.sinaimg.cn/large/00831rSTgy1gcnw9fjn3bj316c0oyn6h.jpg)
+
+
+设计原则：简单可行的性能调优
+
+- 表现为只需要调节三个参数
+	- `-XX:+UseG1GC`
+		- 使用G1收集器
+	- `-Xmx`
+		- 最大堆内存
+	- `-XX:MaxGCPauseMillis=200`
+		- 最大GC停顿时间200ms
+		- **只需要调节此参数**
+- 将垃圾回收区域切分为
+	- 很多个
+	- 相同大小区域
+- 不同区域可以变换
+	- 比如Eden区清除后变成U区未分配
+- 区域分为
+	- Eden
+	- Survivor
+	- Old
+	- Humongous（巨大对象）
+		- 当一个对象超过一个区域的50%会存放入Humongous区
+- 垃圾回收方式
+	- Young回收
+		- 直接将存留下来的对象复制到未分配区域
+	- Mix回收（混合回收机制）
+		- 初始标记（标记直接关联的GCRoots）
+		- 并发标记
+			- 也为全局标记
+			- 使用三色法标记
+				- 一次只标记一层
+				- 在*初始标记*时会有一个快照，防止误删
+					- 但是会产生浮动垃圾
+	![三色标记](https://tva1.sinaimg.cn/large/00831rSTgy1gcnw7oqgodj30de0wctyw.jpg)
+	- 最终标记
+		- 筛选回收
+
+## 常见的启动设置参数
+
+### JVM参数
+
+- `-Xms`初始堆大小
+- `-Xmx`最大堆大小
+- `-XX:PermGen`老年代初始大小
+- `-XX:MaxPermGen`老年代最大值
+- `-XX:SurvivorRatio`Eden与Survivor区比例，默认为8
+- `-XX:NewRatio`老年代与年轻代比例，默认为2
+### GC参数
+
+- `-XX:+UseSerialGC`
+	- client端默认打开后采用`Serial + Serial Old`
+- `-XX:+UseParallelGC`
+	- `Paraller Scanverge + Serial Old`
+- `-XX:+UseParallelOldGC`
+	- `Paraller Scanverge + Paraller Old`
+- `-XX:+UseConcMarkSweepGC`
+	- `ParNew + CMS + Serial Old`
+- `-XX:UseG1GC`
+
+## Java调优可视化检测工具
+
+- jconsole(JDK提供)
+- jprofiler(需要下载)
+	- `-XX:+HeapDumpOnOutOfMemeryError`
+	- `-XX:HeapDumpPath=/path`
+	- 此设置可以在发生OOM时，打印日志
+		- 将后缀名`.dump`修改为`.hprof`就可以直接打开查看，内存情况
