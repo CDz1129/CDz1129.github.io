@@ -1,0 +1,94 @@
+
+---
+layout:     post
+title:      JVM知识——垃圾收集算法
+subtitle:   垃圾收集算法
+date:       2020-03-09
+author:     CDz
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - JVM
+---
+## 垃圾收集
+上面讲了*标记垃圾*的方式，那么就需要有一个程序来进行对垃圾的收集工作。此时也需要有不同的垃圾收集算法。
+
+### 垃圾收集算法
+#### 标记清除算法
+顾名思义，通过*可达性分析算法*标记出不需要回收的垃圾，然后清除所有未标记对象。
+
+缺点：会造成大量的内存碎片，导致**需要连续空间创建的大对象**，创建不出，报出OOM异常。
+
+![标记清除算法](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwtitg25j31cq0hsq5d.jpg)
+
+#### 复制算法
+复制算法顾名思义，只通过复制来做到清除的目的，但是需要将内存划分为两块区域，**永远有一块区域是不会被使用到的**，因为需要提供复制使用。
+
+具体步骤：
+1. 标记出引用对象
+2. 将引用对象，复制另一篇区域，然后将此区域全部清除
+
+![复制算法](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwtypo1ej31d60jo41g.jpg)
+
+缺点：内存浪费太多，永远有一半的内存没有在使用。
+
+#### 标记整理算法
+
+标记整理，顾名思义，是标记之后，直接将标记存活的对象，复制到开头位置。
+
+复制的过程是，通过内存地址来计算复制，最后结束的内存地址点，后所有的对象直接清除。
+
+![标记整理算法](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwuihu9tj31da0igtb4.jpg)
+
+缺点：
+需要计算每一个对象的内存地址，有一定的开销。
+
+
+
+#### 分代垃圾回收
+
+第一次：
+![](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwx3xzj2j31ya08swgq.jpg)
+复制算法
+![](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwws92twj31xs09kdi5.jpg)
+
+第二次：
+![](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwwg3p0hj31yy08q0v7.jpg)
+复制算法
+![](https://tva1.sinaimg.cn/large/00831rSTgy1gcnwvbxetej31xa08eac9.jpg)
+
+从这两次的模拟回收可以看出：
+
+Survivor区被分为了两个区域
+- from
+- to
+
+年轻代比例为：Eden:from:to=8:1:1
+
+这两个区域是**来回互换**的，保证有一个区域是空的可以使用复制算法。
+
+但是会有一个问题，当需要复制的对象比较多，from或to区不能装满时怎么办？
+答：内存担保机制，放入old老年代。
+
+还有一种情况：如果一个对象躲过15次GC还没有被回收时，就存入老年代。
+
+总结：
+- 分代回收
+	- 新生代(young)
+		- Eden
+		- Survivor
+			- from
+			- to
+		- 默认比值：Eden：from：to=8：1：1
+		- 使用复制算法
+	- 老年代(old)
+		- 标记清理或者标记整理
+- 进入老年代条件：
+	- 当Survivor区复制不存放时
+	- 当一个对象躲过15次GC时
+- GC
+	- 年轻代GC：MinorGC
+	- 老年代GC：FullGC
+		- 当老年代满了，并且新生代也内存不足时会被触发
+		- FullGC会对young区与old区进行统一回收
+		- 耗时较长 
