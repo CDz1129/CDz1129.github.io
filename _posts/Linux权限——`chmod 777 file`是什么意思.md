@@ -4,7 +4,6 @@ title:      Linux权限——`chmod 777 file`是什么意思
 subtitle:   Linux
 date:       2020-03-23
 author:     CDz
-header-img: 
 catalog: true
 tags:
     - Linux
